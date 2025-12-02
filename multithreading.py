@@ -9,7 +9,7 @@ from rich import print
 # global headers to be used for requests
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'}
 
-MAX_THREADS = 8
+#MAX_THREADS = 8
 
 def extract_movie_details(movie_link):
     time.sleep(random.uniform(0, 0.2))
@@ -59,7 +59,7 @@ def extract_movies(soup):
     movies_table = soup.find('div', attrs={'data-testid': 'chart-layout-main-column'}).find('ul')
     movies_table_rows = movies_table.find_all('li')
     movie_links = ['https://imdb.com' + movie.find('a')['href'] for movie in movies_table_rows]
-
+    
     threads = min(MAX_THREADS, len(movie_links))
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         executor.map(extract_movie_details, movie_links)
